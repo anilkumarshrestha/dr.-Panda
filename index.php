@@ -24,7 +24,9 @@
   <p>Get your health report anywhere anytime.</p> 
 <?php
 if(isset($_SESSION["doctor"])){
-    include "search.php";
+    include "report_upload.php";
+} elseif(isset($_SESSION["patient"])){
+    include "patient_view.php";
 }
 ?>
 </div>

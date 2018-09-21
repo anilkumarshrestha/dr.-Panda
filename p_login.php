@@ -8,16 +8,16 @@ if(isset($_SESSION["patient"])){
     header("location: index.php");
 }
 
-$p_username = $password = "";
-$p_username_err = $password_err = "";
+$p_email = $password = "";
+$p_email_err = $password_err = "";
 
 //processing from data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-    //check if p_username field is empty
-    if(empty(trim($_POST["p_username"]))){
-        $p_username_err = 'Please enter username.';
+    //check if p_email field is empty
+    if(empty(trim($_POST["p_email"]))){
+        $p_email_err = 'Please enter mail.';
     } else {
-        $p_username = trim($_POST["p_username"]);
+        $p_email = trim($_POST["p_email"]);
     }
 
     /*
@@ -42,19 +42,19 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
 
     //validate credentials
-    if(empty($p_username_err) && empty($password_err)){
+    if(empty($p_email_err) && empty($password_err)){
         //prepare a select statement
-        $sql = "SELECT parti_id, p_username, password FROM patient WHERE p_username = :p_username";   //select column1, column2,.. FROM tablename
+        $sql = "SELECT id, p_email, password FROM patient WHERE p_email = :p_email";   //select column1, column2,.. FROM tablename
         if($stmt = $pdo->prepare($sql)){
             //bind variable to prepared statement as parameters
-            $stmt->bindParam(':p_username',$param_p_username, PDO::PARAM_STR);
+            $stmt->bindParam(':p_email',$param_p_email, PDO::PARAM_STR);
 
             //set parameter
-            $param_p_username = trim($_POST["p_username"]);
+            $param_p_email = trim($_POST["p_email"]);
 
             //attemp to execute the prepared statement
             if($stmt->execute()){
-                //p_username exists? verifyPass : err
+                //p_email exists? verifyPass : err
                 if($stmt->rowCount() == 1){
                     if($row = $stmt->fetch()){
                         $hashed_password = $row['password'];
@@ -63,7 +63,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             //password true
                             session_start();
 
-                            $_SESSION['patient']= $p_username;
+                            $_SESSION['patient']= $p_email;
 				
 				
                             $_SESSION['id']= $row["id"];
@@ -73,7 +73,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         }
                     } else {
                         //account False
-                        $p_username_err = 'No account found with that p_username.';
+                        $p_email_err = 'No account found with that p_email.';
                     }
                 } else {
                     echo "Something went wrong. Please try again later.";
@@ -108,9 +108,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <p>Please fill in your credentials to login.</p>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                 <div class="form-group">
-                    <label>Username:<sup>*</sup></label>
-                    <input type='text' name='p_username' class='form-control' placeholder="user@xyz.com">
-                    <span class="help-block"><?php echo $p_username_err; ?></span>
+                    <label>Email:<sup>*</sup></label>
+                    <input type='text' name='p_email' class='form-control' placeholder="user@xyz.com">
+                    <span class="help-block"><?php echo $p_email_err; ?></span>
                 </div>
 
                 <div class="form-group">

@@ -16,7 +16,7 @@ require_once '../config.php';
                 $d_email_err="email cannot be empty";
                 } else {
                     //prepare a statement
-                    $sql = "SELECT d_id FROM doctor WHERE d_username = :d_username";
+                    $sql = "SELECT doctor_id FROM doctor WHERE d_username = :d_username";
                     if($stmt = $pdo->prepare($sql)){
                     $stmt->bindParam(":d_username",$param_username,PDO::PARAM_STR);
                     $param_username = trim($_POST["d_username"]);
@@ -140,7 +140,7 @@ require_once '../config.php';
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="submit">
             <input type="reset" class="btn btn-default" value="Reset">
-            <p>Have no account?<a href="d_login.php">Login</a></p>
+            <p>Have no account?<a href="../d_login.php">Login</a></p>
             </div>
         </form>
         </div>

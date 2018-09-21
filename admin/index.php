@@ -110,7 +110,7 @@ include "header.php";
        <div class="col-sm-4">
         <div style="text-align:center; ">
 	<div class="cont">
-		<a href="d_register.php"><span class="text1">Register Doctor<span></a><br>
+		<a href="admin/d_register.php"><span class="text1">Register Doctor<span></a><br>
 	</div>
 
 </div>
